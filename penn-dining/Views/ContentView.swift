@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @Environment(DiningHallViewModel.self) var diningHallViewModel
     let diningHalls = [DiningHall(name: "Hill"), DiningHall(name: "Commons"), DiningHall(name: "Kcheh")]
     
     var body: some View {
@@ -44,6 +45,8 @@ struct RowView: View {
     var body: some View {
         HStack{
             VStack(alignment: .leading) {
+                Text("open")
+                    .font(.caption)
                 Text(diningHall.name)
                     .font(.title)
                 Text("hours: ____")
@@ -62,5 +65,7 @@ struct RowView: View {
 }
 
 #Preview {
+    @Previewable @State var diningHallViewModel = DiningHallViewModel()
+
     ContentView()
 }

@@ -10,10 +10,13 @@ import SwiftData
 
 @main
 struct penn_diningApp: App {
+    @State var diningHallViewModel: DiningHallViewModel = DiningHallViewModel()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(diningHallViewModel)
+                
         }
     }
 }
