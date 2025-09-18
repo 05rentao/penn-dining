@@ -9,53 +9,58 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    let diningHalls = [DiningHall(name: "Hill"), DiningHall(name: "Commons"), DiningHall(name: "Kcheh")]
+    
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Spacer(minLength: 25)
+                    Divider()
+                    ForEach(diningHalls) { diningHall in
+                        NavigationLink(value: diningHall) {
+                            RowView(diningHall: diningHall)
+                        }
+                        Divider()
                 }
             }
-        } detail: {
-            Text("Select an item")
+            .navigationTitle("Penn Dining")
+            .navigationDestination(for: DiningHall.self) { diningHall in
+                DiningHallView(diningHall: diningHall)
+            }
+            
+//            Section {
+//                List(diningHalls) { diningHall in
+//                    RowView(diningHall: diningHall)
+//                }
+//            }
         }
     }
+}
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+struct RowView: View {
+    let diningHall: DiningHall
+    
+    var body: some View {
+        HStack{
+            VStack(alignment: .leading) {
+                Text(diningHall.name)
+                    .font(.title)
+                Text("hours: ____")
             }
+            
+            .padding()
+            Spacer()
+            Image(systemName: "chevron.right")
+            }
+        .foregroundColor(.primary)
+        .padding(.trailing, 20)
+        .padding()
+        
         }
     }
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
 }
