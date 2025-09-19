@@ -8,6 +8,8 @@ import Foundation
 import SwiftUI
 import Observation
 import MessageUI
+import SafariServices
+
 
 @Observable class DiningHallViewModel: Observable  {
     
@@ -36,6 +38,7 @@ import MessageUI
         }
     }
     
+
     func setRating(_ diningHall: DiningHall, rating: Int) {
         ratings[diningHall.id] = rating
     }

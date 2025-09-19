@@ -6,13 +6,23 @@
 //
 
 import SwiftUI
+import SafariServices
 
+enum ActiveSheet: Identifiable {
+    case message, safari
+    
+    var id: Int {
+        hashValue
+    }
+}
 
 struct DiningHallView: View {
     @Environment(DiningHallViewModel.self) var diningHallViewModel
     
     let diningHall: DiningHall
-    @State private var showMessageSheet = false
+    @State private var activeSheet: ActiveSheet?
+
+
 
     
     var body: some View {
@@ -62,7 +72,6 @@ struct DiningHallView: View {
                         Text(diningHall.address)
                         
                         
-                        
                         HStack {
                             let rating = diningHallViewModel.ratings[diningHall.id]
                             
@@ -81,10 +90,9 @@ struct DiningHallView: View {
                         
                         HStack(alignment: .center) {
                             Button("Menu") {
-                                // TODO: addmenu
-                            }
+                                activeSheet = .safari                            }
                             
-                            Button("Location") {
+                            Button("Directions") {
                                 if let url = URL(string: "http://maps.apple.com/?q=\(diningHall.address)") {
                                             UIApplication.shared.open(url)
                                         }
@@ -99,8 +107,7 @@ struct DiningHallView: View {
                     HStack{
                         
                         Button {
-                            showMessageSheet = true
-                        } label: {
+                            activeSheet = .message                        } label: {
                             Image(systemName: "square.and.arrow.up")
                         }
                     }
@@ -124,13 +131,20 @@ struct DiningHallView: View {
                 Spacer()
             }
         }
-        .sheet(isPresented: $showMessageSheet) {
-            MessageComposeView(message: "u tryna fine dine at \(diningHall.name) rn bro")
+        .sheet(item: $activeSheet) { sheet in
+                switch sheet {
+                case .message:
+                    MessageComposeView(message: "u tryna fine dine at \(diningHall.name) rn bro")
+                case .safari:
+                    SafariView(url: URL(string: "https://university-of-pennsylvania.cafebonappetit.com/cafe/hill-house/")!)
+                    // SafariView(url: URL(string: diningHallViewModel.menus[diningHall.id])!)
                 }
+            }
         
     }
         
 }
+
 
 #Preview {
     @Previewable @State var diningHallViewModel = DiningHallViewModel()
