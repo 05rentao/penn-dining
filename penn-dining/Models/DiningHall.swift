@@ -17,17 +17,21 @@ struct DiningHall: Identifiable, Decodable, Hashable {
     let id: Int
 }
 
-struct Days: Decodable, Hashable {
+struct Days: Decodable, Hashable, Identifiable{
     let date: String
     let status: String
     let dayparts: [DayParts]
+    
+    var id: String {date}
 }
 
-struct DayParts: Decodable, Hashable {
+struct DayParts: Decodable, Hashable, Identifiable {
     let starttime: String
     let endtime: String
     let message: String
     let label: String // breakfast/lunch/dinner
+    
+    var id: String {starttime}
 }
 
 extension DiningHall {

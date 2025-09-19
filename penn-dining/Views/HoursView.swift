@@ -12,13 +12,26 @@ struct HoursView: View {
     @State var diningHall: DiningHall
     
     var body: some View {
-        VStack {
-            Text("Hours")
-            // Text(diningHall.days)
+        VStack(alignment: .leading) {
+            Text("Hours:")
+                .font(.headline)
+            ForEach( diningHall.days) { day in
+                HStack {
+                    Text("\(diningHallViewModel.dayOfWeek(dateString: day.date)): ")
+                    ForEach(day.dayparts) { dayPart in
+                        ForEach(diningHallViewModel.getInterval(dayPart: dayPart)) { time in
+                            Text(time)
+                        }
+                        
+                    }
+                }
+            }
         }
         
     }
 }
+
+
 
 #Preview {
     @Previewable @State var diningHallViewModel = DiningHallViewModel()
