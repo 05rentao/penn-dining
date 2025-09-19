@@ -12,7 +12,12 @@ struct MenuView: View {
     @State var diningHall: DiningHall
     
     var body: some View {
-        Text("MENU! ")
+        VStack (alignment: .leading) {
+            Text("MENU! ")
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+
     }
 }
 

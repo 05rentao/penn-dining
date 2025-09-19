@@ -64,7 +64,7 @@ struct RowView: View {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 150)
+                    .frame(width: 100)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
             } else {
                 ProgressView()
@@ -73,12 +73,26 @@ struct RowView: View {
             
             HStack(alignment: .center) {
                 VStack(alignment: .leading) {
-                    Text("open")
-                        .font(.caption)
+                    Text(diningHall.days[0].status).font(.caption)
+                        .padding(.horizontal, 4)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(2)
                     Text(diningHall.name)
                         .multilineTextAlignment(.leading)
-                        .font(.title)
-                    Text("hours: ____")
+                        .font(.headline)
+                        .padding(.vertical, 2)
+                    let day = diningHall.days[0]
+                    HStack{
+                        ForEach(day.dayparts) { dayPart in
+                            let times = diningHallViewModel.getInterval(dayPart: dayPart) // [String, String]
+                            
+                            Text("\(times[0]) - \(times[1])")
+                                .font(.caption)
+                                .padding(.horizontal, 2)
+                                .background(Color.gray.opacity(0.2))
+                                .cornerRadius(2)
+                        }
+                    }
                 }
                 
                 Spacer()

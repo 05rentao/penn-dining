@@ -20,72 +20,85 @@ struct DiningHallView: View {
     @State private var currentTab: Tab = .menu
     
     var body: some View {
-        VStack {
-            if let image = diningHallViewModel.images[diningHall.id] {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-            } else {
-                ProgressView() 
-            }
-            
-            HStack(alignment: .bottom){
-                
-                VStack(alignment: .leading){
-                    Text(diningHall.days[0].status)
-                    Text(diningHall.name)
-                        .font(.title)
-                    Text("Welcome to \(diningHall.name)!")
-                }
-                
-                Spacer()
-                
-                if (diningHallViewModel.favorites.contains(diningHall.id)) {
-                    Button {
-                        diningHallViewModel.removeFavorite(diningHall.id)
-                    } label: {
-                        Image(systemName: "star.fill")
-                    }
+        ScrollView{
+            VStack(alignment: .leading) {
+                if let image = diningHallViewModel.images[diningHall.id] {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
                 } else {
-                    Button {
-                        diningHallViewModel.addFavorite(diningHall.id)
-                    } label: {
-                        Image(systemName: "star")
-                    }
+                    ProgressView()
                 }
                 
-                Button {
-                    // TODO: add share mechanism
+                HStack(alignment: .bottom){
                     
-                } label: {
-                    Image(systemName: "square.and.arrow.up")
+                    VStack(alignment: .leading){
+                        Text(diningHall.days[0].status)
+                            .font(.caption)
+                            .padding(2)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(4)
+                        Text(diningHall.name)
+                            .font(.title)
+                            .bold()
+                        Text("Welcome to \(diningHall.name)!")
+                    }
+                    
+                    Spacer()
+                    
+                    if (diningHallViewModel.favorites.contains(diningHall.id)) {
+                        Button {
+                            diningHallViewModel.removeFavorite(diningHall.id)
+                        } label: {
+                            Image(systemName: "star.fill")
+                        }
+                    } else {
+                        Button {
+                            diningHallViewModel.addFavorite(diningHall.id)
+                        } label: {
+                            Image(systemName: "star")
+                        }
+                    }
+                    
+                    Button {
+                        // TODO: add share mechanism
+                        
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    
                 }
+                .padding()
                 
-            }
-            .padding()
-            
-            Divider()
-            HStack{
-                Button("Menu") {
-                    currentTab = .menu
-                }
-                Button("Hours") {
-                    currentTab = .hours
-                }
-                Button("Location") {
-                    currentTab = .location
-                }
-            }
-            Divider()
+                VStack(alignment: .leading) {
+                    Divider()
+                    HStack {
 
-            if currentTab == .menu {
-                MenuView(diningHall: diningHall)
-            } else if currentTab == .hours {
-                HoursView(diningHall: diningHall)
-            } else {
-                LocationView(diningHall: diningHall)
+                        Button("Hours") {
+                            currentTab = .hours
+                        }
+                        Button("Menu") {
+                            currentTab = .menu
+                        }
+                        Button("Location") {
+                            currentTab = .location
+                        }
+
+                    }
+                    Divider()
+                }
+                .padding()
+
+                if currentTab == .menu {
+                    MenuView(diningHall: diningHall)
+                } else if currentTab == .hours {
+                    HoursView(diningHall: diningHall)
+                        .frame(maxWidth: .infinity)
+                } else {
+                    LocationView(diningHall: diningHall)
+                }
+                Spacer()
             }
-            Spacer()
         }
     }
 }

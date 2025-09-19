@@ -12,20 +12,31 @@ struct HoursView: View {
     @State var diningHall: DiningHall
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Hours:")
-                .font(.headline)
-            ForEach( diningHall.days) { day in
-                HStack {
-                    Text("\(diningHallViewModel.dayOfWeek(dateString: day.date)): ")
-                    ForEach(day.dayparts) { dayPart in
-                        ForEach(diningHallViewModel.getInterval(dayPart: dayPart)) { time in
-                            Text(time)
-                        }
+        ScrollView {
+            VStack(alignment: .leading) {
+                ForEach( diningHall.days) { day in
+                    VStack(alignment: .leading) {
+                        let dayLabel = diningHallViewModel.dayOfWeek(dateString: day.date)
+                        Text(dayLabel + ":")
+                            .font(.subheadline)
+                            .bold()
                         
+                        HStack{
+                            ForEach(day.dayparts) { dayPart in
+                                let times = diningHallViewModel.getInterval(dayPart: dayPart) // [String, String]
+                                
+                                Text("\(times[0]) - \(times[1])")
+                                    .font(.caption)
+                                    .padding(4)
+                                    .background(Color.gray.opacity(0.2))
+                                    .cornerRadius(4)
+                            }
+                        }
                     }
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
         }
         
     }

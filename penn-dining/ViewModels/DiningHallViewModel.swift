@@ -66,10 +66,13 @@ import Observation
         let start = formatter.date(from: dayPart.starttime)!
         let end = formatter.date(from: dayPart.endtime)!
         
-        let hourFormatter = DateFormatter()
-        hourFormatter.dateFormat = "h a"
+        let hourFormatter1 = DateFormatter()
+        hourFormatter1.dateFormat = "h"
         
-        return [hourFormatter.string(from: start), hourFormatter.string(from: end)]
+        let hourFormatter2 = DateFormatter()
+        hourFormatter2.dateFormat = "ha"
+        
+        return [hourFormatter1.string(from: start), hourFormatter2.string(from: end)]
     }
     
     

@@ -12,8 +12,11 @@ struct LocationView: View {
     @State var diningHall: DiningHall
     
     var body: some View {
-        Text("Location of ___! ")
-    }
+        VStack (alignment: .leading) {
+            Text("Location! ")
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()    }
 }
 
 #Preview {
