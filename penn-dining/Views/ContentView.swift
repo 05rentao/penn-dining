@@ -73,10 +73,11 @@ struct RowView: View {
             
             HStack(alignment: .center) {
                 VStack(alignment: .leading) {
-                    Text(diningHall.days[0].status).font(.caption)
-                        .padding(.horizontal, 4)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(2)
+                    let status = diningHallViewModel.status[diningHall.id]
+                    Text(status ?? "N/A").font(.caption)
+                            .padding(.horizontal, 4)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(2)
                     Text(diningHall.name)
                         .multilineTextAlignment(.leading)
                         .font(.headline)
@@ -84,7 +85,7 @@ struct RowView: View {
                     let day = diningHall.days[0]
                     HStack{
                         ForEach(day.dayparts) { dayPart in
-                            let times = diningHallViewModel.getInterval(dayPart: dayPart) // [String, String]
+                            let times = diningHallViewModel.getIntervalString(dayPart: dayPart) // [String, String]
                             
                             Text("\(times[0]) - \(times[1])")
                                 .font(.caption)

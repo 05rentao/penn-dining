@@ -23,7 +23,7 @@ struct HoursView: View {
                         
                         HStack{
                             ForEach(day.dayparts) { dayPart in
-                                let times = diningHallViewModel.getInterval(dayPart: dayPart) // [String, String]
+                                let times = diningHallViewModel.getIntervalString(dayPart: dayPart) // [String, String]
                                 
                                 Text("\(times[0]) - \(times[1])")
                                     .font(.caption)

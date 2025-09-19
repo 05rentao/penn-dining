@@ -13,20 +13,30 @@ import Observation
     var diningHalls: [DiningHall] = []
     var favorites: [Int] = []
     var images: [Int: UIImage] = [:]
+    var status: [Int: String] = [:]
 
     
     init() {
         Task {
             await getDiningHalls()
             await loadImage()
+            for diningHall in diningHalls {
+                await saveDiningHallStatus(diningHall: diningHall)
+                print("init tasks")
+            }
         }
     }
     
     func refresh() async {
         await getDiningHalls()
+        for diningHall in diningHalls {
+            await saveDiningHallStatus(diningHall: diningHall)
+
+        }
     }
     
     func dayOfWeek(dateString: String) -> String {
+        // return the string for the day of the week
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -41,15 +51,38 @@ import Observation
         return "Unknown"
     }
     
-    func currPeriod(diningHall: DiningHall) async -> DayParts? {
-        await refresh()
-        
-        let formatter = ISO8601DateFormatter()
+    func getInterval(_ dayPart : DayParts) -> (Date, Date) {
+        // given a meal period, return a
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         formatter.timeZone = TimeZone(identifier: "America/New_York")
         
-        for dayPart in diningHall.days[0].dayparts {  // only look at first day because thats only plae where our interval is.
-            let start = formatter.date(from: dayPart.starttime)!
-            let end = formatter.date(from: dayPart.endtime)!
+        let start = formatter.date(from: dayPart.starttime)!
+        let end = formatter.date(from: dayPart.endtime)!
+        return (start, end)
+    }
+    
+    func saveDiningHallStatus(diningHall: DiningHall) async {
+        print("saveDiningHallStatus")
+        var result = ""
+        if let dayPart = await getCurrPeriod(diningHall: diningHall) {
+            let interval = getIntervalString(dayPart: dayPart)
+            result = "\(interval[0]) - \(interval[1])"
+        } else {
+            result = "Currently closed"
+        }
+        self.status[diningHall.id] = result
+        print("updated \(diningHall)")
+    }
+    
+    func getCurrPeriod(diningHall: DiningHall) async -> DayParts? {
+        // get the current meal time
+        print("getCurrPeriod")
+        
+        for dayPart in diningHall.days[0].dayparts {  // only look at first day because thats only place where our interval is.
+            let interval = getInterval(dayPart)
+            let start = interval.0
+            let end = interval.1
             if withinInterval(start, end) {
                 return dayPart
             }
@@ -57,14 +90,11 @@ import Observation
         return nil
     }
     
-    func getInterval(dayPart: DayParts) -> [String] {
+    func getIntervalString(dayPart: DayParts) -> [String] {
         // returns the string [00:00, 00:00]
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        formatter.timeZone = TimeZone(identifier: "America/New_York")
-        
-        let start = formatter.date(from: dayPart.starttime)!
-        let end = formatter.date(from: dayPart.endtime)!
+        let interval = getInterval(dayPart)
+        let start = interval.0
+        let end = interval.1
         
         let hourFormatter1 = DateFormatter()
         hourFormatter1.dateFormat = "h"
