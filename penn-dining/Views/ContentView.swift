@@ -18,7 +18,6 @@ struct ContentView: View {
                     Text("Favorites")
                         .font(.title)
                     VStack(alignment: .leading) {
-                        Spacer(minLength: 25)
                         Divider()
                         ForEach(diningHallViewModel.diningHalls.filter { diningHall in
                             diningHallViewModel.favorites.contains(diningHall.id)
@@ -35,8 +34,8 @@ struct ContentView: View {
                     }
                     Text("Penn Dining")
                         .font(.title)
+                        .padding(.top)
                     VStack(alignment: .leading) {
-                        Spacer(minLength: 25)
                         Divider()
                         ForEach(diningHallViewModel.diningHalls.filter { diningHall in
                             !diningHallViewModel.favorites.contains(diningHall.id)
@@ -50,12 +49,6 @@ struct ContentView: View {
                     
                 }
                 .padding()
-                
-                //            Section {
-                //                List(diningHalls) { diningHall in
-                //                    RowView(diningHall: diningHall)
-                //                }
-                //            }
             }
         }
     }
