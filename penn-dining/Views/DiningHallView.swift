@@ -14,24 +14,44 @@ enum Tab {
 }
 
 struct DiningHallView: View {
+    @Environment(DiningHallViewModel.self) var diningHallViewModel
+    
     let diningHall: DiningHall
     @State private var currentTab: Tab = .menu
     
     var body: some View {
         VStack {
+            AsyncImage(url: URL(string: diningHall.image)) { image in
+                image.resizable()
+            } placeholder: {
+                Text("Loading...")
+            }
+            .frame(width: .infinity, height: 200)
             HStack(alignment: .bottom){
+                
                 VStack(alignment: .leading){
+                    Text(diningHall.days[0].status)
                     Text(diningHall.name)
                         .font(.title)
                     Text("Welcome to \(diningHall.name)!")
                 }
+                
                 Spacer()
-                Button {
-                    // TODO: add star mechanism
-                    
-                } label: {
-                    Image(systemName: "star")
+                
+                if (diningHallViewModel.favorites.contains(diningHall.id)) {
+                    Button {
+                        diningHallViewModel.removeFavorite(diningHall.id)
+                    } label: {
+                        Image(systemName: "star.fill")
+                    }
+                } else {
+                    Button {
+                        diningHallViewModel.addFavorite(diningHall.id)
+                    } label: {
+                        Image(systemName: "star")
+                    }
                 }
+                
                 Button {
                     // TODO: add share mechanism
                     
@@ -57,11 +77,11 @@ struct DiningHallView: View {
             Divider()
 
             if currentTab == .menu {
-                MenuView()
+                MenuView(diningHall: diningHall)
             } else if currentTab == .hours {
-                HoursView()
+                HoursView(diningHall: diningHall)
             } else {
-                LocationView()
+                LocationView(diningHall: diningHall)
             }
             Spacer()
         }
@@ -69,5 +89,8 @@ struct DiningHallView: View {
 }
 
 #Preview {
-    DiningHallView(diningHall: DiningHall(name: "Commons"))
+    @Previewable @State var diningHallViewModel = DiningHallViewModel()
+    
+    DiningHallView(diningHall: DiningHall.mock[0])
+        .environment(diningHallViewModel)
 }

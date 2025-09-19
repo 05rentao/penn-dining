@@ -30,8 +30,8 @@
             filePath = "penn-dining/Views/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "RowView"
             landmarkType = "14">
          </BreakpointContent>

@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct MenuView: View {
+    @Environment(DiningHallViewModel.self) var diningHallViewModel
+    @State var diningHall: DiningHall
+    
     var body: some View {
         Text("MENU! ")
     }
 }
 
 #Preview {
-    MenuView()
+    @Previewable @State var diningHallViewModel = DiningHallViewModel()
+    
+    MenuView(diningHall: DiningHall.mock[0])
+        .environment(diningHallViewModel)
+
 }

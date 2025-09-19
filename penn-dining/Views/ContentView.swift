@@ -11,15 +11,13 @@ import SwiftData
 struct ContentView: View {
     @Environment(DiningHallViewModel.self) var diningHallViewModel
     
-    let diningHalls = [DiningHall(name: "Hill"), DiningHall(name: "Commons"), DiningHall(name: "Kcheh")]
-    
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
                     Spacer(minLength: 25)
                     Divider()
-                    ForEach(diningHalls) { diningHall in
+                    ForEach(diningHallViewModel.diningHalls) { diningHall in
                         NavigationLink(value: diningHall) {
                             RowView(diningHall: diningHall)
                         }
