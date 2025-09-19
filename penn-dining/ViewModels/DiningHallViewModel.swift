@@ -7,8 +7,9 @@
 import Foundation
 import SwiftUI
 import Observation
+import MessageUI
 
-@Observable class DiningHallViewModel: Observable {
+@Observable class DiningHallViewModel: Observable  {
     
     var diningHalls: [DiningHall] = []
     var favorites: [Int] = []
@@ -22,7 +23,6 @@ import Observation
             await loadImage()
             for diningHall in diningHalls {
                 await saveDiningHallStatus(diningHall: diningHall)
-                print("init tasks")
             }
         }
     }
@@ -63,7 +63,6 @@ import Observation
     }
     
     func saveDiningHallStatus(diningHall: DiningHall) async {
-        print("saveDiningHallStatus")
         var result = ""
         if let dayPart = await getCurrPeriod(diningHall: diningHall) {
             let interval = getIntervalString(dayPart: dayPart)
@@ -72,12 +71,10 @@ import Observation
             result = "Currently closed"
         }
         self.status[diningHall.id] = result
-        print("updated \(diningHall)")
     }
     
     func getCurrPeriod(diningHall: DiningHall) async -> DayParts? {
         // get the current meal time
-        print("getCurrPeriod")
         
         for dayPart in diningHall.days[0].dayparts {  // only look at first day because thats only place where our interval is.
             let interval = getInterval(dayPart)

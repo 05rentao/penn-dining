@@ -22,14 +22,22 @@ struct HoursView: View {
                             .bold()
                         
                         HStack{
-                            ForEach(day.dayparts) { dayPart in
-                                let times = diningHallViewModel.getIntervalString(dayPart: dayPart) // [String, String]
-                                
-                                Text("\(times[0]) - \(times[1])")
+                            if day.dayparts.isEmpty {
+                                Text("Closed")
                                     .font(.caption)
                                     .padding(4)
                                     .background(Color.gray.opacity(0.2))
                                     .cornerRadius(4)
+                            } else {
+                                ForEach(day.dayparts) { dayPart in
+                                    let times = diningHallViewModel.getIntervalString(dayPart: dayPart) // [String, String]
+                                    
+                                    Text("\(times[0]) - \(times[1])")
+                                        .font(.caption)
+                                        .padding(4)
+                                        .background(Color.gray.opacity(0.2))
+                                        .cornerRadius(4)
+                                }
                             }
                         }
                     }

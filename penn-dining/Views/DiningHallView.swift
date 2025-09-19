@@ -18,6 +18,8 @@ struct DiningHallView: View {
     
     let diningHall: DiningHall
     @State private var currentTab: Tab = .menu
+    @State private var showMessageSheet = false
+
     
     var body: some View {
         ScrollView{
@@ -61,8 +63,7 @@ struct DiningHallView: View {
                     }
                     
                     Button {
-                        // TODO: add share mechanism
-                        
+                        showMessageSheet = true
                     } label: {
                         Image(systemName: "square.and.arrow.up")
                     }
@@ -100,7 +101,12 @@ struct DiningHallView: View {
                 Spacer()
             }
         }
+        .sheet(isPresented: $showMessageSheet) {
+            MessageComposeView(message: "u tryna fine dine at \(diningHall.name) rn bro")
+                }
+        
     }
+        
 }
 
 #Preview {
