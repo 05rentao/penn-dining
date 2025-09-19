@@ -15,6 +15,7 @@ import MessageUI
     var favorites: [Int] = []
     var images: [Int: UIImage] = [:]
     var status: [Int: String] = [:]
+    var ratings: [Int: Int] = [:]
 
     
     init() {
@@ -34,6 +35,12 @@ import MessageUI
 
         }
     }
+    
+    func setRating(_ diningHall: DiningHall, rating: Int) {
+        ratings[diningHall.id] = rating
+    }
+    
+    // ----- hours logic ---------
     
     func dayOfWeek(dateString: String) -> String {
         // return the string for the day of the week
