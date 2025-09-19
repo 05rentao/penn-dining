@@ -10,6 +10,7 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(DiningHallViewModel.self) var diningHallViewModel
+    
     let diningHalls = [DiningHall(name: "Hill"), DiningHall(name: "Commons"), DiningHall(name: "Kcheh")]
     
     var body: some View {
@@ -68,4 +69,5 @@ struct RowView: View {
     @Previewable @State var diningHallViewModel = DiningHallViewModel()
 
     ContentView()
+        .environment(diningHallViewModel)
 }

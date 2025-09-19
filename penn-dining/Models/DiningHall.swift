@@ -13,23 +13,24 @@ struct DiningHall: Hashable, Identifiable {
     // TODO: move all uses of this class over to JSON version
 }
 
-struct DiningHallJSON: Identifiable, Decodable {
+struct DiningHallJSON: Identifiable, Decodable, Hashable {
+    
     let name: String
     let address: String
     let days: [Days]
     let image: String
-    let id: UUID
+    let id: Int
 }
 
-struct Days: Decodable {
+struct Days: Decodable, Hashable {
     let date: String
     let status: String
     let dayparts: [DayParts]
 }
 
-struct DayParts: Decodable {
+struct DayParts: Decodable, Hashable {
     let starttime: String
     let endtime: String
-    // skipped message, not sure what is
+    let message: String
     let label: String // breakfast/lunch/dinner
 }

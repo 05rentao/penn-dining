@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct penn_diningApp: App {
-    @State var diningHallViewModel: DiningHallViewModel = DiningHallViewModel()
+    @State var diningHallViewModel = DiningHallViewModel()
     
     var body: some Scene {
         WindowGroup {
