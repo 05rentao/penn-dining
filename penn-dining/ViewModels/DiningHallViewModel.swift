@@ -13,6 +13,7 @@ import Observation
     var diningHalls: [DiningHall] = []
     var favorites: [Int] = []
     var images: [Int: UIImage] = [:]
+    var currentTime = Date()
     
     init() {
         Task {
@@ -20,6 +21,8 @@ import Observation
             await loadImage()
         }
     }
+    
+    func isOpen
     
     func getDiningHalls() async {
         do {
@@ -30,6 +33,7 @@ import Observation
     }
     
     func loadImage() async {
+        // save loaded images all at once so tha we don't have to continously make calls to get the same image
         for diningHall in diningHalls {
             let imageData = try! Data(contentsOf: URL(string: diningHall.image)!)
             self.images[diningHall.id] = UIImage(data: imageData)

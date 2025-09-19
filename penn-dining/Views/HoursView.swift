@@ -12,8 +12,11 @@ struct HoursView: View {
     @State var diningHall: DiningHall
     
     var body: some View {
-        Text("Hours")
-        // Text(diningHall.days)
+        VStack {
+            Text("Hours")
+            // Text(diningHall.days)
+        }
+        
     }
 }
 
