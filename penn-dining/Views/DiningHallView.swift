@@ -21,12 +21,14 @@ struct DiningHallView: View {
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: diningHall.image)) { image in
-                image.resizable()
-            } placeholder: {
-                Text("Loading...")
+            if let image = diningHallViewModel.images[diningHall.id] {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+            } else {
+                ProgressView() 
             }
-            .frame(width: .infinity, height: 200)
+            
             HStack(alignment: .bottom){
                 
                 VStack(alignment: .leading){

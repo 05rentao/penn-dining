@@ -54,6 +54,7 @@ class APIManager {
         }
     }
     
+    
     func apiCall<T: Decodable>(_ urlString: String) async throws -> [T] {
         let url = URL(string: urlString)!  // ik this url works
         var request = URLRequest(url: url)

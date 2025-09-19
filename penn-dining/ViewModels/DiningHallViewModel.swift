@@ -12,10 +12,12 @@ import Observation
     
     var diningHalls: [DiningHall] = []
     var favorites: [Int] = []
+    var images: [Int: UIImage] = [:]
     
     init() {
         Task {
             await getDiningHalls()
+            await loadImage()
         }
     }
     
@@ -24,6 +26,13 @@ import Observation
             self.diningHalls = try await APIManager.instance.getDiningHalls()
         } catch let error {
             print("error fetching dining hall APIs: " + error.localizedDescription)
+        }
+    }
+    
+    func loadImage() async {
+        for diningHall in diningHalls {
+            let imageData = try! Data(contentsOf: URL(string: diningHall.image)!)
+            self.images[diningHall.id] = UIImage(data: imageData)
         }
     }
     

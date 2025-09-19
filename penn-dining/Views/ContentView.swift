@@ -14,52 +14,88 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading) {
-                    Spacer(minLength: 25)
-                    Divider()
-                    ForEach(diningHallViewModel.diningHalls) { diningHall in
-                        NavigationLink(value: diningHall) {
-                            RowView(diningHall: diningHall)
-                        }
+                VStack(alignment: .leading){
+                    Text("Favorites")
+                        .font(.title)
+                    VStack(alignment: .leading) {
+                        Spacer(minLength: 25)
                         Divider()
+                        ForEach(diningHallViewModel.diningHalls.filter { diningHall in
+                            diningHallViewModel.favorites.contains(diningHall.id)
+                        }) { diningHall in
+                            NavigationLink(value: diningHall) {
+                                RowView(diningHall: diningHall)
+                            }
+                            Divider()
+                        }
+                    }
+                    .navigationTitle("Penn Dining")
+                    .navigationDestination(for: DiningHall.self) { diningHall in
+                        DiningHallView(diningHall: diningHall)
+                    }
+                    Text("Penn Dining")
+                        .font(.title)
+                    VStack(alignment: .leading) {
+                        Spacer(minLength: 25)
+                        Divider()
+                        ForEach(diningHallViewModel.diningHalls.filter { diningHall in
+                            !diningHallViewModel.favorites.contains(diningHall.id)
+                        }) { diningHall in
+                            NavigationLink(value: diningHall) {
+                                RowView(diningHall: diningHall)
+                            }
+                            Divider()
+                        }
+                    }
+                    
                 }
+                .padding()
+                
+                //            Section {
+                //                List(diningHalls) { diningHall in
+                //                    RowView(diningHall: diningHall)
+                //                }
+                //            }
             }
-            .navigationTitle("Penn Dining")
-            .navigationDestination(for: DiningHall.self) { diningHall in
-                DiningHallView(diningHall: diningHall)
-            }
-            
-//            Section {
-//                List(diningHalls) { diningHall in
-//                    RowView(diningHall: diningHall)
-//                }
-//            }
         }
     }
 }
-
+    
 struct RowView: View {
+    @Environment(DiningHallViewModel.self) var diningHallViewModel
     let diningHall: DiningHall
     
     var body: some View {
-        HStack{
-            VStack(alignment: .leading) {
-                Text("open")
-                    .font(.caption)
-                Text(diningHall.name)
-                    .font(.title)
-                Text("hours: ____")
+        HStack(alignment: .center){
+            if let image = diningHallViewModel.images[diningHall.id] {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+            } else {
+                ProgressView()
             }
             
-            .padding()
-            Spacer()
-            Image(systemName: "chevron.right")
+            
+            HStack(alignment: .center) {
+                VStack(alignment: .leading) {
+                    Text("open")
+                        .font(.caption)
+                    Text(diningHall.name)
+                        .multilineTextAlignment(.leading)
+                        .font(.title)
+                    Text("hours: ____")
+                }
+                
+                Spacer()
+                Image(systemName: "chevron.right")
             }
-        .foregroundColor(.primary)
-        .padding(.trailing, 20)
-        .padding()
-        
+            .foregroundColor(.primary)
+            .padding(.leading, 5)
+            .padding(.top, 5)
         }
+        
     }
 }
 
