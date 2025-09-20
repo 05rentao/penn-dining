@@ -18,24 +18,24 @@ import SafariServices
     var images: [Int: UIImage] = [:]
     var status: [Int: String] = [:]
     var ratings: [Int: Int] = [:]
-    var websites: [Int: String] = [
-        593: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/1920-commons",
-        636: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/hill-house",
-        1442: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/lauder-college-house",
-        638: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/falk-penn-hillel",
-        637: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/english-house",
-        1464004: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/quaker-kitchen",
-        641: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/accenture-cafe",
-        1464009 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/cafe-west",
-        1057 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/gourmet-grocer",
-        639 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/houston-market",
-        642 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/joes-cafe",
-        747: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/mcclelland-cafe",
-        1732 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/pret-manger",
-        1733 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/pret-manger",
-        1163 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/starbucks"
+    let urlComponent: [Int: String] = [
+        593: "1920-commons",
+        636: "hill-house",
+        1442: "lauder-college-house",
+        638: "falk-penn-hillel",
+        637: "english-house",
+        1464004: "quaker-kitchen",
+        641: "accenture-cafe",
+        1464009: "cafe-west",
+        1057: "gourmet-grocer",
+        639: "houston-market",
+        642: "joes-cafe",
+        747: "mcclelland-cafe",
+        1732: "pret-manger",
+        1733: "pret-manger",
+        1163: "starbucks",
     ]
-
+    
     
     init() {
         Task {
@@ -51,10 +51,8 @@ import SafariServices
         await getDiningHalls()
         for diningHall in diningHalls {
             await saveDiningHallStatus(diningHall: diningHall)
-
         }
     }
-    
 
     func setRating(_ diningHall: DiningHall, rating: Int) {
         ratings[diningHall.id] = rating
@@ -76,7 +74,6 @@ import SafariServices
             return weekdays[day - 1]
         }
         return "Unknown"
-        
     }
     
     func getInterval(_ dayPart : DayParts) -> (Date, Date) {
@@ -96,9 +93,9 @@ import SafariServices
             let interval = getIntervalString(dayPart: dayPart)
             result = "\(interval[0]) - \(interval[1])"
         } else {
-            result = "Currently closed"
+            self.status[diningHall.id] = nil
         }
-        self.status[diningHall.id] = result
+        
     }
     
     func getCurrPeriod(diningHall: DiningHall) async -> DayParts? {
@@ -113,6 +110,18 @@ import SafariServices
             }
         }
         return nil
+    }
+    
+    func isOpen(diningHall: DiningHall) async -> Bool {
+        for dayPart in diningHall.days[0].dayparts {  // only look at first day because thats only place where our interval is.
+            let interval = getInterval(dayPart)
+            let start = interval.0
+            let end = interval.1
+            if withinInterval(start, end) {
+                return true
+            }
+        }
+        return false
     }
     
     func getIntervalString(dayPart: DayParts) -> [String] {
@@ -130,8 +139,6 @@ import SafariServices
         return [hourFormatter1.string(from: start), hourFormatter2.string(from: end)]
     }
     
-    
-    
     func withinInterval(_ start: Date, _ end: Date) -> Bool {
         let time: NSDate = NSDate()
         if time.compare(start) == .orderedDescending && time.compare(end) == .orderedAscending {
@@ -139,7 +146,6 @@ import SafariServices
         }
         return false
     }
-    
     
     //------Networking-----------------
     

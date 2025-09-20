@@ -15,6 +15,7 @@ struct ContentView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading){
+                    
                     Text("Favorites")
                         .font(.title)
                         .bold()
@@ -68,6 +69,7 @@ struct RowView: View {
                     .scaledToFit()
                     .frame(width: 100)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .padding(.bottom, 5)
             } else {
                 ProgressView()
             }
@@ -75,15 +77,41 @@ struct RowView: View {
             
             HStack(alignment: .center) {
                 VStack(alignment: .leading) {
-                    let status = diningHallViewModel.status[diningHall.id]
-                    Text(status ?? "N/A").font(.caption)
-                            .padding(.horizontal, 4)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(2)
-                    Text(diningHall.name)
-                        .multilineTextAlignment(.leading)
-                        .font(.headline)
-                        .padding(.vertical, 2)
+                    HStack{
+                        if let status = diningHallViewModel.status[diningHall.id] {
+                            Text(status).font(.caption)
+                                    .padding(.horizontal, 4)
+                                    .background(Color.green.opacity(0.2))
+                                    .cornerRadius(2)
+                        } else {
+                            Text("Closed").font(.caption)
+                                    .padding(.horizontal, 4)
+                                    .background(Color.gray.opacity(0.2))
+                                    .cornerRadius(2)
+                        }
+                        
+                        
+                    }
+                    
+                    HStack(alignment: .center) {
+                        Text(diningHall.name)
+                            .multilineTextAlignment(.leading)
+                            .font(.headline)
+                            .padding(.vertical, 2)
+                        
+                        if let rating = diningHallViewModel.ratings[diningHall.id] {
+                            HStack(spacing: 2) {
+                                Text("\(rating)").font(.caption2)
+                                Image(systemName: "star.fill")
+                                    .foregroundStyle(.yellow)
+                                    .font(.system(size:10))
+                                    .padding(.bottom, 2)
+                            }
+                                .padding(.horizontal, 4)
+                                .cornerRadius(2)
+
+                        }
+                    }
                     let day = diningHall.days[0]
                     HStack{
                         ForEach(day.dayparts) { dayPart in

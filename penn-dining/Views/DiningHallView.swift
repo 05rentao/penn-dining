@@ -39,13 +39,19 @@ struct DiningHallView: View {
                 HStack(alignment: .bottom){
                     
                     VStack(alignment: .leading){
-                        let status = diningHallViewModel.status[diningHall.id]
-                        Text(status ?? "N/A").font(.caption)
-                                .padding(.horizontal, 4)
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(2)
+                        if let status = diningHallViewModel.status[diningHall.id] {
+                            Text(status).font(.caption)
+                                    .padding(.horizontal, 4)
+                                    .background(Color.green.opacity(0.2))
+                                    .cornerRadius(2)
+                        } else {
+                            Text("Closed").font(.caption)
+                                    .padding(.horizontal, 4)
+                                    .background(Color.gray.opacity(0.2))
+                                    .cornerRadius(2)
+                        }
                         
-                        HStack {
+                        HStack(alignment: .top) {
                             Text(diningHall.name)
                                 .font(.title)
                                 .bold()
@@ -55,7 +61,7 @@ struct DiningHallView: View {
                                     diningHallViewModel.removeFavorite(diningHall.id)
                                 } label: {
                                     Image(systemName: "heart.fill")
-                                        .padding(.top, 3)
+                                        .padding(.top, 4)
                                         .font(.system(size:25))
                                         .foregroundStyle(.red)
 
@@ -66,11 +72,9 @@ struct DiningHallView: View {
                                     diningHallViewModel.addFavorite(diningHall.id)
                                 } label: {
                                     Image(systemName: "heart")
-                                        .padding(.top, 3)
+                                        .padding(.top, 5)
                                         .font(.system(size:25))
                                         .foregroundStyle(.primary)
-
-
                                 }
                             }
                             
@@ -92,7 +96,7 @@ struct DiningHallView: View {
                                         diningHallViewModel.setRating(diningHall, rating: number)
                                     }
                             }
-                            Text("(\(rating ?? 0))")
+                            Text("(67)")
                             
                         }
                         .padding(.top, 5)
@@ -105,7 +109,7 @@ struct DiningHallView: View {
                             Divider()
                             
                             Button("Directions") {
-                                if let url = URL(string: "http://maps.apple.com/?q=\(diningHall.address)") {
+                                if let url = URL(string: "http://maps.apple.com/?q=\(diningHall.address) philadelphia") {
                                             UIApplication.shared.open(url)
                                         }
                             }
@@ -115,22 +119,22 @@ struct DiningHallView: View {
                             Button("Website") {
                                 activeSheet = .website
                             }
+                            
+                            Spacer()
+                            
+                            HStack{
+                                
+                                Button {
+                                    activeSheet = .message
+                                } label: {
+                                    Image(systemName: "square.and.arrow.up")
+                                }
+                                .padding(.trailing, 5)
+                            }
 
                         }
                         .padding(.vertical, 5)
                     }
-                    
-                    Spacer()
-                    
-                    HStack{
-                        
-                        Button {
-                            activeSheet = .message
-                        } label: {
-                            Image(systemName: "square.and.arrow.up")
-                        }
-                    }
-                    .padding(10)
                     
                 }
                 .padding()
@@ -155,10 +159,10 @@ struct DiningHallView: View {
                 case .message:
                     MessageComposeView(message: "u tryna fine dine at \(diningHall.name) rn bro")
                 case .menu:
-                    SafariView(url: URL(string: "https://university-of-pennsylvania.cafebonappetit.com")!)
+                    SafariView(url: URL(string: "https://university-of-pennsylvania.cafebonappetit.com/\(diningHallViewModel.urlComponent[diningHall.id] ?? "")")!)
                     // SafariView(url: URL(string: diningHallViewModel.menus[diningHall.id])!)
                 case .website:
-                    SafariView(url: URL(string: diningHallViewModel.websites[diningHall.id] ?? "https://dining.business-services.upenn.edu/locations-hours-menus/locations")!)
+                    SafariView(url: URL(string: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/\(diningHallViewModel.urlComponent[diningHall.id] ?? "")")!)
                     // SafariView(url: URL(string: diningHallViewModel.menus[diningHall.id])!)
                 }
             }
