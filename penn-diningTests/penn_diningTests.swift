@@ -2,7 +2,7 @@
 //  penn_diningTests.swift
 //  penn-diningTests
 //
-//  Created by Ren Tao on 9/17/25.
+//  Created by ____ on 9/17/25.
 //
 
 import Testing

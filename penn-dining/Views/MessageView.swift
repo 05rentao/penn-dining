@@ -2,7 +2,7 @@
 //  MessageView.swift
 //  penn-dining
 //
-//  Created by Ren Tao on 9/19/25.
+//  Created by ____ on 9/19/25.
 //
 
 import SwiftUI

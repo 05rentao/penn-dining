@@ -2,7 +2,7 @@
 //  DiningHall.swift
 //  penn-dining
 //
-//  Created by Ren Tao on 9/17/25.
+//  Created by ____ on 9/17/25.
 //
 
 import Foundation

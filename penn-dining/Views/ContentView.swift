@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  penn-dining
 //
-//  Created by Ren Tao on 9/17/25.
+//  Created by ____ on 9/17/25.
 //
 
 import SwiftUI
@@ -17,6 +17,7 @@ struct ContentView: View {
                 VStack(alignment: .leading){
                     Text("Favorites")
                         .font(.title)
+                        .bold()
                     VStack(alignment: .leading) {
                         Divider()
                         ForEach(diningHallViewModel.diningHalls.filter { diningHall in
@@ -34,6 +35,7 @@ struct ContentView: View {
                     }
                     Text("Penn Dining")
                         .font(.title)
+                        .bold()
                         .padding(.top)
                     VStack(alignment: .leading) {
                         Divider()

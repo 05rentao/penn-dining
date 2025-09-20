@@ -2,14 +2,14 @@
 //  DiningHallView.swift
 //  penn-dining
 //
-//  Created by Ren Tao on 9/17/25.
+//  Created by ____ on 9/17/25.
 //
 
 import SwiftUI
 import SafariServices
 
 enum ActiveSheet: Identifiable {
-    case message, safari
+    case message, website, menu
     
     var id: Int {
         hashValue
@@ -56,6 +56,9 @@ struct DiningHallView: View {
                                 } label: {
                                     Image(systemName: "heart.fill")
                                         .padding(.top, 3)
+                                        .font(.system(size:25))
+                                        .foregroundStyle(.red)
+
                                 }
                                 
                             } else {
@@ -64,6 +67,9 @@ struct DiningHallView: View {
                                 } label: {
                                     Image(systemName: "heart")
                                         .padding(.top, 3)
+                                        .font(.system(size:25))
+                                        .foregroundStyle(.primary)
+
 
                                 }
                             }
@@ -77,9 +83,12 @@ struct DiningHallView: View {
                             
                             ForEach(1...5, id: \.self) { number in
                                 Image(systemName: number <= (rating ?? 0) ? "star.fill" : "star")
-                                    .foregroundColor(.yellow)
+                                    .foregroundStyle(.yellow)
                                     .font(.system(size:20))
                                     .onTapGesture {
+                                        for diningHall in diningHallViewModel.diningHalls {
+                                            print(diningHall.name, diningHall.id)
+                                        }
                                         diningHallViewModel.setRating(diningHall, rating: number)
                                     }
                             }
@@ -90,12 +99,21 @@ struct DiningHallView: View {
                         
                         HStack(alignment: .center) {
                             Button("Menu") {
-                                activeSheet = .safari                            }
+                                activeSheet = .menu
+                            }
+                            
+                            Divider()
                             
                             Button("Directions") {
                                 if let url = URL(string: "http://maps.apple.com/?q=\(diningHall.address)") {
                                             UIApplication.shared.open(url)
                                         }
+                            }
+                            
+                            Divider()
+
+                            Button("Website") {
+                                activeSheet = .website
                             }
 
                         }
@@ -107,7 +125,8 @@ struct DiningHallView: View {
                     HStack{
                         
                         Button {
-                            activeSheet = .message                        } label: {
+                            activeSheet = .message
+                        } label: {
                             Image(systemName: "square.and.arrow.up")
                         }
                     }
@@ -135,8 +154,11 @@ struct DiningHallView: View {
                 switch sheet {
                 case .message:
                     MessageComposeView(message: "u tryna fine dine at \(diningHall.name) rn bro")
-                case .safari:
-                    SafariView(url: URL(string: "https://university-of-pennsylvania.cafebonappetit.com/cafe/hill-house/")!)
+                case .menu:
+                    SafariView(url: URL(string: "https://university-of-pennsylvania.cafebonappetit.com")!)
+                    // SafariView(url: URL(string: diningHallViewModel.menus[diningHall.id])!)
+                case .website:
+                    SafariView(url: URL(string: diningHallViewModel.websites[diningHall.id] ?? "https://dining.business-services.upenn.edu/locations-hours-menus/locations")!)
                     // SafariView(url: URL(string: diningHallViewModel.menus[diningHall.id])!)
                 }
             }

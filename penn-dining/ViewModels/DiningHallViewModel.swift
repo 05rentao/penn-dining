@@ -2,7 +2,7 @@
 //  DiningHallViewModel.swift
 //  penn-dining
 //
-//  Created by Ren Tao on 9/18/25.
+//  Created by ____ on 9/18/25.
 //
 import Foundation
 import SwiftUI
@@ -18,6 +18,23 @@ import SafariServices
     var images: [Int: UIImage] = [:]
     var status: [Int: String] = [:]
     var ratings: [Int: Int] = [:]
+    var websites: [Int: String] = [
+        593: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/1920-commons",
+        636: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/hill-house",
+        1442: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/lauder-college-house",
+        638: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/falk-penn-hillel",
+        637: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/english-house",
+        1464004: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/quaker-kitchen",
+        641: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/accenture-cafe",
+        1464009 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/cafe-west",
+        1057 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/gourmet-grocer",
+        639 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/houston-market",
+        642 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/joes-cafe",
+        747: "https://dining.business-services.upenn.edu/locations-hours-menus/locations/mcclelland-cafe",
+        1732 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/pret-manger",
+        1733 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/pret-manger",
+        1163 : "https://dining.business-services.upenn.edu/locations-hours-menus/locations/starbucks"
+    ]
 
     
     init() {
@@ -59,6 +76,7 @@ import SafariServices
             return weekdays[day - 1]
         }
         return "Unknown"
+        
     }
     
     func getInterval(_ dayPart : DayParts) -> (Date, Date) {
