@@ -9,13 +9,10 @@ import Foundation
 
 enum NetworkError: String, Error {
     case networkError
-    // TODO: more cases?
 }
 
 class APIManager {
     static let instance = APIManager()
-    
-    // TODO: Add backup API
     
     func getDiningHalls() async throws -> [DiningHall] {
         let mainAPI = "https://pennmobile.org/api/dining/venues/?format=json"
