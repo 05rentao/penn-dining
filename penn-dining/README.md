@@ -1,12 +1,27 @@
-Hi!
+# Penn Dining App
+Recreating the [classic](https://github.com/pennlabs/penn-mobile-ios) PennDining app, functioning to help out a fellow Penn student with finding out when and where can one eat on campus!! 
 
-I implemented my Penn dining app, mainly inspired by the UI of PennMobile, but I still sprinkled in a few changes.
+## Features: 
+* See a list of dining halls on campus, their hours, and if they are currently open
+* Favorite dining halls, and pin favorites at the top
+* Display dining hall location as well as navigation via Apple Maps
+* Navigate to respective dining hall websites for descriptions
+* Link to the Menu for the day
+* Rating feature to rate the menu on any given day
+* Text it to a friend feature and make plans to eat dinner tgt!
 
-In particular, I implemented a rating feature, where you could rate each dining hall's food for the day. I had the idea that students could have a way of crowdsourcing where the food was good. I included this feature in the homescreen rowView as well I wasn't able to fully flush out this idea due to time constraints(making up some fake data, filter dining hall by rating)
+## Screenshots
+<p float="left">
+  <img src="https://github.com/05rentao/penn-dining/blob/main/penn-dining/ScreenShots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20New%20-%202025-09-20%20at%2001.47.13.png" width="300" />
+  <img src="https://github.com/05rentao/penn-dining/blob/main/penn-dining/ScreenShots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20New%20-%202025-09-20%20at%2001.45.20.png" width="300" />
+</p>
 
-Additionally, I was also trying to implement a share feature where you'd be able to share the dining hall with a friend, and sorta "make plans" via the share-prompted text message you can send to someone. I'm not sure whether it works well functionally, I wasn't able to test it on my phone.
+<p float="left">
+  <img src="https://github.com/05rentao/penn-dining/blob/main/penn-dining/ScreenShots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20New%20-%202025-09-20%20at%2001.45.49.png" width="300" />
+  <img src="https://github.com/05rentao/penn-dining/blob/main/penn-dining/ScreenShots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20New%20-%202025-09-20%20at%2001.46.07.png" width="300" />
+</p>
 
-I was trying to implement a LocationView using MapKit UI, but since I didn't have the full address, I'd had to download some packages and that wasn't possible for me. Therefore I settled on a link to AppleMaps that could be used as directions.
-
-I used ChatGPT's help in this application, mainly to debug stuff like simulators not running. I used it for the messenger feature as I didm't quite grasp the documentation. I also used to to create mock data based on the JSON files.
+<p float="left">
+  <img src="https://github.com/05rentao/penn-dining/blob/main/penn-dining/ScreenShots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20New%20-%202025-09-20%20at%2001.46.19.png" width="300" />
+</p>
 
